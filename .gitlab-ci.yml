@@ -1,0 +1,204 @@
+.only_source:
+  only:
+    changes:
+      - k8s_bench_interface/**
+      - tests/**
+      - .gitlab
+      - .gitlab-ci.yml
+      - MANIFEST.in
+      - .pre-commit-config.yaml
+      - requirements*.txt
+      - setup.py
+
+image: docker:20.10.16
+
+variables:
+  DOCKER_TLS_CERTDIR: ''
+  FF_NETWORK_PER_BUILD: 'true'
+  REGISTRY_STORAGE_DELETE_ENABLED: 'true'
+  MARIADB_CHARACTER_SET: utf8mb4
+  MARIADB_COLLATE: utf8mb4_unicode_ci
+  MARIADB_ROOT_PASSWORD: '123'
+  MARIADB_EXTRA_FLAGS: --skip-character-set-client-handshake --skip-innodb-read-only-compressed
+
+stages:
+  - test
+  - build
+  - docs
+
+services:
+  - name: docker:20.10.16-dind
+    alias: docker
+  # - name: registry.gitlab.com/gitlab-org/cluster-integration/test-utils/k3s-gitlab-ci/releases/v1.23.4-k3s1
+  #   alias: k3s
+  #   command: ['server', '--disable=traefik']
+  - name: redis:7.0.0-alpine
+    alias: redis-cache
+  - name: redis:7.0.0-alpine
+    alias: redis-queue
+  - name: redis:7.0.0-alpine
+    alias: redis-socketio
+  - name: bitnami/mariadb:10.6
+    alias: mariadb
+
+test_quality:
+  image: python:3-alpine
+  stage: test
+  only:
+    - merge_requests
+  before_script:
+    # Install os dependencies
+    - apk add -U git
+
+    # Setup python environment
+    - |
+      python3 -m venv env
+      . ./env/bin/activate
+      REQUIREMENTS_FILE=requirements-ci.txt pip install -e .
+  script:
+    # Test code format and lint
+    - ./env/bin/pre-commit run --color=always --all-files
+  tags:
+    - castlecraft
+
+test_e2e:
+  image: frappe/bench:latest
+  stage: test
+  only:
+    refs:
+      - merge_requests
+  extends: .only_source
+  before_script:
+    # For Cypress
+    # - sudo apt-get update && sudo apt-get install -y jq wait-for-it libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+    # - sudo dpkg -i https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    # For frappe-bench
+    - sudo mkdir -p /workspace
+    - sudo chown -R frappe:frappe /workspace
+    # Extract database.sql
+    - gunzip -c tests/database.sql.gz > /workspace/database.sql
+    # Initialize bench with frappe version-14.
+    - |
+      bench init --skip-redis-config-generation --frappe-branch version-14 /workspace/frappe-bench
+      cd /workspace/frappe-bench
+      bench set-config -g db_host mariadb
+      bench set-config -g redis_cache redis://redis-cache:6379
+      bench set-config -g redis_queue redis://redis-queue:6379
+      bench set-config -g redis_socketio redis://redis-socketio:6379
+    - |
+      echo "Setup k8s_bench"
+      cd /workspace
+      git clone https://gitlab.com/castlecraft/k8s_bench
+      cd k8s_bench
+      python3 -m venv env
+      ./env/bin/pip install -e .
+      echo "k8s_bench: /workspace/development/k8s_bench/env/bin/uvicorn --host 0.0.0.0 --reload --port 3000 --reload-dir /workspace/development/k8s_bench k8s_bench.main:app" >> /workspace/frappe-bench/Procfile
+    ## Install Apps
+    - |
+      cd /workspace/frappe-bench
+      bench get-app k8s_bench_interface ${CI_PROJECT_DIR}
+    ## Restore Base Site
+    - bench new-site --source_sql /workspace/database.sql --admin-password=admin --db-root-password=123 --no-mariadb-socket localhost
+    ## Migrate Site
+    - bench --site localhost migrate
+    # Configure K8s Bench
+    - bench --site localhost set-config k8s_bench_url http://localhost:3000
+    - bench --site localhost set-config k8s_bench_key admin
+    - bench --site localhost set-config k8s_bench_secret changeit
+  script:
+    # Start bench
+    - |
+      bench start &
+      wait-for-it -t 60 localhost:8000
+      curl -sSL http://localhost:8000/api/method/version
+      # bench --site localhost run-ui-tests --headless k8s_bench_interface
+      kill %1
+
+build_latest:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: ['']
+  only:
+    refs:
+      - main
+  script:
+    - |
+      source ./ci/build.env
+      mkdir -p /kaniko/.docker
+      export IMAGE_NAME=${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/${IMAGE}
+      export BASIC_AUTH=$(echo -n ${CI_REGISTRY_USER}:${CI_JOB_TOKEN} | base64)
+      echo "{
+        \"auths\": {
+          \"${CI_REGISTRY}\":{
+            \"auth\": \"${BASIC_AUTH}\"
+            }
+          }
+        }" > /kaniko/.docker/config.json
+      /kaniko/executor \
+        --dockerfile=${CONTAINERFILE} \
+        --context=${BUILD_CONTEXT} \
+        --build-arg=FRAPPE_PATH=${FRAPPE_PATH} \
+        --build-arg=FRAPPE_BRANCH=${FRAPPE_BRANCH} \
+        --build-arg=PYTHON_VERSION=${PYTHON_VERSION} \
+        --build-arg=NODE_VERSION=${NODE_VERSION} \
+        --build-arg=APPS_JSON_BASE64=${APPS_JSON_BASE64:-$(base64 -w 0 ./ci/apps.json)} \
+        --destination=${IMAGE_NAME}:latest \
+        --cache=true
+
+build_version:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: ['']
+  only:
+    refs:
+      - main
+    changes:
+      - k8s_bench_interface/k8s_bench_interface/__init__.py
+      - ci/version.txt
+  script:
+    - |
+      source ./ci/build.env
+      mkdir -p /kaniko/.docker
+      export IMAGE_NAME=${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/${IMAGE}
+      export BASIC_AUTH=$(echo -n ${CI_REGISTRY_USER}:${CI_JOB_TOKEN} | base64)
+      echo "{
+        \"auths\": {
+          \"${CI_REGISTRY}\":{
+            \"auth\": \"${BASIC_AUTH}\"
+            }
+          }
+        }" > /kaniko/.docker/config.json
+      /kaniko/executor \
+        --dockerfile=${CONTAINERFILE} \
+        --context=${BUILD_CONTEXT} \
+        --build-arg=FRAPPE_PATH=${FRAPPE_PATH} \
+        --build-arg=FRAPPE_BRANCH=${FRAPPE_BRANCH} \
+        --build-arg=PYTHON_VERSION=${PYTHON_VERSION} \
+        --build-arg=NODE_VERSION=${NODE_VERSION} \
+        --build-arg=APPS_JSON_BASE64=${APPS_JSON_BASE64:-$(base64 -w 0 ./ci/apps.json)} \
+        --destination=${IMAGE_NAME}:${VERSION:-$(cat ./ci/version.txt)} \
+        --cache=true
+
+pages:
+  image: python:3-alpine
+  stage: docs
+  only:
+    refs:
+      - main
+    changes:
+      - docs/**
+  before_script:
+    # Setup python environment
+    - |
+      python -m venv env
+      . ./env/bin/activate
+      pip install -e .
+  script:
+    - mkdocs build -d public
+  artifacts:
+    paths:
+      - public
+  tags:
+    - castlecraft

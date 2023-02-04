@@ -1,0 +1,136 @@
+{
+  "actions": [],
+  "creation": "2023-01-29 11:26:14.245132",
+  "default_view": "List",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "sb_release_info",
+    "release_name",
+    "namespace",
+    "release_interval",
+    "sourceref",
+    "remediate_last_failure",
+    "cb_rel_info_00",
+    "chart_interval",
+    "version",
+    "chart",
+    "timeout",
+    "sb_release_details",
+    "values",
+    "status_logs"
+  ],
+  "fields": [
+    {
+      "fieldname": "release_name",
+      "fieldtype": "Data",
+      "label": "Release Name"
+    },
+    {
+      "fieldname": "namespace",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Namespace",
+      "options": "Kubernetes Namespace",
+      "reqd": 1
+    },
+    {
+      "fieldname": "release_interval",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Release Interval",
+      "reqd": 1
+    },
+    {
+      "fieldname": "chart_interval",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Chart Interval",
+      "reqd": 1
+    },
+    {
+      "fieldname": "chart",
+      "fieldtype": "Data",
+      "label": "Chart",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sourceref",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "SourceRef",
+      "options": "Flux Helm Source",
+      "reqd": 1
+    },
+    {
+      "fieldname": "values",
+      "fieldtype": "Code",
+      "label": "Values",
+      "options": "JSON",
+      "reqd": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "remediate_last_failure",
+      "fieldtype": "Check",
+      "label": "Remediate Last Failure"
+    },
+    {
+      "fieldname": "version",
+      "fieldtype": "Data",
+      "label": "Version"
+    },
+    {
+      "fieldname": "timeout",
+      "fieldtype": "Data",
+      "label": "Timeout",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sb_release_info",
+      "fieldtype": "Section Break",
+      "label": "Release Information"
+    },
+    {
+      "fieldname": "cb_rel_info_00",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "sb_release_details",
+      "fieldtype": "Section Break",
+      "label": "Release Details"
+    },
+    {
+      "fieldname": "status_logs",
+      "fieldtype": "Table",
+      "label": "Status Logs",
+      "options": "Flux Helm Release Status",
+      "read_only": 1
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2023-01-29 21:37:30.262576",
+  "modified_by": "Administrator",
+  "module": "K8S Bench Interface",
+  "name": "Flux Helm Release",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
+}

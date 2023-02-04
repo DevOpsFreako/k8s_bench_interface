@@ -1,0 +1,242 @@
+{
+  "actions": [],
+  "allow_rename": 1,
+  "creation": "2023-01-29 20:58:01.283731",
+  "default_view": "List",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "sb_build_info",
+    "job_name",
+    "namespace",
+    "destination_image_name",
+    "push_secret_name",
+    "container_file_path",
+    "snapshot_mode",
+    "cb_build_info_00",
+    "frappe_path",
+    "frappe_branch",
+    "python_version",
+    "node_version",
+    "git_repo_context",
+    "sb_build_flags",
+    "cache",
+    "insecure_registry",
+    "use_new_run",
+    "sb_apps",
+    "apps_json",
+    "sb_extra_hosts",
+    "host_aliases",
+    "sb_job_details",
+    "node_selectors",
+    "sb_res_constraints",
+    "requests_cpu",
+    "requests_memory",
+    "cb_res_con_00",
+    "limits_cpu",
+    "limits_memory",
+    "sb_status_logs",
+    "build_logs"
+  ],
+  "fields": [
+    {
+      "fieldname": "job_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Job Name",
+      "reqd": 1
+    },
+    {
+      "fieldname": "namespace",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Namespace",
+      "options": "Kubernetes Namespace",
+      "reqd": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "cache",
+      "fieldtype": "Check",
+      "label": "Cache"
+    },
+    {
+      "fieldname": "push_secret_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Push Secret Name",
+      "reqd": 1
+    },
+    {
+      "fieldname": "destination_image_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Destination Image Name",
+      "reqd": 1
+    },
+    {
+      "fieldname": "container_file_path",
+      "fieldtype": "Data",
+      "label": "Container File Path"
+    },
+    {
+      "fieldname": "frappe_path",
+      "fieldtype": "Data",
+      "label": "Frappe Path",
+      "options": "URL"
+    },
+    {
+      "fieldname": "frappe_branch",
+      "fieldtype": "Data",
+      "label": "Frappe Branch"
+    },
+    {
+      "fieldname": "python_version",
+      "fieldtype": "Data",
+      "label": "Python Version"
+    },
+    {
+      "fieldname": "node_version",
+      "fieldtype": "Data",
+      "label": "Node Version"
+    },
+    {
+      "fieldname": "apps_json",
+      "fieldtype": "Code",
+      "label": "Apps JSON",
+      "options": "JSON"
+    },
+    {
+      "fieldname": "git_repo_context",
+      "fieldtype": "Data",
+      "label": "Git Repo Context"
+    },
+    {
+      "default": "0",
+      "fieldname": "insecure_registry",
+      "fieldtype": "Check",
+      "label": "Insecure Registry"
+    },
+    {
+      "default": "0",
+      "fieldname": "use_new_run",
+      "fieldtype": "Check",
+      "label": "Use New Run"
+    },
+    {
+      "fieldname": "snapshot_mode",
+      "fieldtype": "Select",
+      "label": "Snapshot Mode",
+      "options": "redo\nfull\ntime"
+    },
+    {
+      "fieldname": "host_aliases",
+      "fieldtype": "Code",
+      "label": "Host Aliases",
+      "options": "JSON"
+    },
+    {
+      "fieldname": "sb_build_info",
+      "fieldtype": "Section Break",
+      "label": "Build Information"
+    },
+    {
+      "fieldname": "cb_build_info_00",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "sb_build_flags",
+      "fieldtype": "Section Break",
+      "label": "Build Flags"
+    },
+    {
+      "fieldname": "sb_apps",
+      "fieldtype": "Section Break",
+      "label": "Apps"
+    },
+    {
+      "fieldname": "sb_extra_hosts",
+      "fieldtype": "Section Break",
+      "label": "Extra Hosts"
+    },
+    {
+      "fieldname": "sb_status_logs",
+      "fieldtype": "Section Break",
+      "label": "Status Logs"
+    },
+    {
+      "fieldname": "build_logs",
+      "fieldtype": "Table",
+      "label": "Build Logs",
+      "options": "Custom Build Log",
+      "read_only": 1
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "sb_job_details",
+      "fieldtype": "Section Break",
+      "label": "Job Details"
+    },
+    {
+      "fieldname": "node_selectors",
+      "fieldtype": "Table",
+      "label": "Node Selectors",
+      "options": "Kubernetes NodeSelector"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "sb_res_constraints",
+      "fieldtype": "Section Break",
+      "label": "Resource Constraints"
+    },
+    {
+      "fieldname": "requests_cpu",
+      "fieldtype": "Data",
+      "label": "Requests CPU"
+    },
+    {
+      "fieldname": "requests_memory",
+      "fieldtype": "Data",
+      "label": "Requests Memory"
+    },
+    {
+      "fieldname": "cb_res_con_00",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "limits_cpu",
+      "fieldtype": "Data",
+      "label": "Limits CPU"
+    },
+    {
+      "fieldname": "limits_memory",
+      "fieldtype": "Data",
+      "label": "Limits Memory"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2023-01-30 17:32:18.196451",
+  "modified_by": "Administrator",
+  "module": "K8S Bench Interface",
+  "name": "Custom Build",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
+}

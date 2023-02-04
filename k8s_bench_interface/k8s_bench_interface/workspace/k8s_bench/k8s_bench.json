@@ -1,0 +1,125 @@
+{
+  "charts": [],
+  "content": "[{\"id\":\"UN_NtQGJ3R\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">K8s Bench</span>\",\"col\":12}},{\"id\":\"X1KD2HaL5s\",\"type\":\"card\",\"data\":{\"card_name\":\"Kubernetes\",\"col\":4}},{\"id\":\"hpmSgrDFhN\",\"type\":\"card\",\"data\":{\"card_name\":\"Jobs\",\"col\":4}},{\"id\":\"vTzbPr5s5U\",\"type\":\"card\",\"data\":{\"card_name\":\"Flux\",\"col\":4}}]",
+  "creation": "2023-01-28 22:57:50.924930",
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "integration",
+  "idx": 0,
+  "is_hidden": 0,
+  "label": "K8s Bench",
+  "links": [
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Kubernetes",
+      "link_count": 3,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Namespace",
+      "link_count": 0,
+      "link_to": "Kubernetes Namespace",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Secret",
+      "link_count": 0,
+      "link_to": "Kubernetes Secret",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Ingress",
+      "link_count": 0,
+      "link_to": "Kubernetes Ingress",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Jobs",
+      "link_count": 2,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Custom Build",
+      "link_count": 0,
+      "link_to": "Custom Build",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Bench Command",
+      "link_count": 0,
+      "link_to": "Bench Command",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Flux",
+      "link_count": 2,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Source",
+      "link_count": 0,
+      "link_to": "Flux Helm Source",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Helm Release",
+      "link_count": 0,
+      "link_to": "Flux Helm Release",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    }
+  ],
+  "modified": "2023-02-02 14:05:18.826986",
+  "modified_by": "Administrator",
+  "module": "K8S Bench Interface",
+  "name": "K8s Bench",
+  "owner": "Administrator",
+  "parent_page": "",
+  "public": 1,
+  "quick_lists": [],
+  "roles": [
+    {
+      "role": "System Manager"
+    }
+  ],
+  "sequence_id": 1.0,
+  "shortcuts": [],
+  "title": "K8s Bench"
+}

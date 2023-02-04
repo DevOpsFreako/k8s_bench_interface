@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 services:
   mariadb:
@@ -23,9 +23,9 @@ services:
 
   frappe:
     build: .
-    command: ["tail", "-f", "/dev/null"]
+    command: ['tail', '-f', '/dev/null']
     environment:
-      - SHELL=/bin/bash
+      - SHELL=/bin/zsh
       - DOCKER_HOST=docker
     volumes:
       - ..:/workspace

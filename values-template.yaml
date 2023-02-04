@@ -1,0 +1,75 @@
+# dbHost: myrealdb.123456789012.us-east-1.rds.amazonaws.com
+# dbRootUser: admin
+# dbRootPassword: myrealpassword
+# dbRds: true
+# mariadb:
+#   enabled: false
+
+image:
+  repository: registry.gitlab.com/castlecraft/k8s_bench_interface/bench
+  tag: 14.0.0-0
+
+persistence:
+  worker:
+    storageClass: nfs
+
+jobs:
+  createSite:
+    enabled: true
+    siteName: 'k8s-bench-ui.localhost'
+    adminPassword: 'changeit'
+    installApps:
+      - 'k8s_bench_interface'
+
+  custom:
+    enabled: true
+    jobName: 'set-k8s-bench-config'
+    containers:
+      - name: set-config
+        image: registry.gitlab.com/castlecraft/k8s_bench_interface/bench:14.0.0
+        imagePullPolicy: IfNotPresent
+        command: ['bash', '-c']
+        args:
+          - >
+            export start=`date +%s`;
+            until [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".db_host // empty"` ]] && \
+              [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_cache // empty"` ]] && \
+              [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_queue // empty"` ]];
+            do
+              echo "Waiting for sites/common_site_config.json to be created";
+              sleep 5;
+              if (( `date +%s`-start > 120 )); then
+                echo "could not find sites/common_site_config.json with required keys";
+                exit 1
+              fi
+            done;
+            echo "sites/common_site_config.json found";
+            bench --site k8s-bench-ui.localhost set-config k8s_bench_url http://manage-sites-k8s-bench.bench-system.svc.cluster.local:8000;
+            bench --site k8s-bench-ui.localhost set-config k8s_bench_key admin;
+            bench --site k8s-bench-ui.localhost set-config k8s_bench_secret changeit;
+        resources: {}
+        volumeMounts:
+          - name: sites-dir
+            mountPath: /home/frappe/frappe-bench/sites
+    volumes:
+      - name: sites-dir
+        persistentVolumeClaim:
+          claimName: k8s-bench-ui-erpnext
+          readOnly: false
+
+ingress:
+  enabled: true
+  className: nginx
+  # annotations:
+  #   kubernetes.io/ingress.class: nginx
+  #   kubernetes.io/tls-acme: "true"
+  #   cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: k8s-bench-ui.localhost
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: k8s-bench-ui-tls
+      hosts:
+        - k8s-bench-ui.localhost

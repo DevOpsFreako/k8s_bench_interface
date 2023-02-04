@@ -1,0 +1,122 @@
+{
+  "actions": [],
+  "creation": "2023-01-30 22:20:53.727562",
+  "default_view": "List",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "sb_ingress_info",
+    "ingress_name",
+    "bench",
+    "namespace",
+    "host",
+    "cb_ingress_info_00",
+    "service_name",
+    "service_port",
+    "cert_secret_name",
+    "is_wildcard",
+    "sb_ingress_details",
+    "annotations",
+    "status_logs"
+  ],
+  "fields": [
+    {
+      "fieldname": "ingress_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Ingress Name",
+      "reqd": 1
+    },
+    {
+      "fieldname": "namespace",
+      "fieldtype": "Link",
+      "label": "Namespace",
+      "options": "Kubernetes Namespace"
+    },
+    {
+      "fieldname": "host",
+      "fieldtype": "Data",
+      "label": "Host"
+    },
+    {
+      "fieldname": "service_name",
+      "fieldtype": "Data",
+      "label": "Service Name"
+    },
+    {
+      "fieldname": "service_port",
+      "fieldtype": "Int",
+      "label": "Service Port"
+    },
+    {
+      "fieldname": "cert_secret_name",
+      "fieldtype": "Data",
+      "label": "Cert Secret Name"
+    },
+    {
+      "default": "0",
+      "fieldname": "is_wildcard",
+      "fieldtype": "Check",
+      "label": "Is Wildcard"
+    },
+    {
+      "fieldname": "annotations",
+      "fieldtype": "Table",
+      "label": "Annotations",
+      "options": "Kubernetes Annotation"
+    },
+    {
+      "fieldname": "sb_ingress_info",
+      "fieldtype": "Section Break",
+      "label": "Ingress Information"
+    },
+    {
+      "fieldname": "cb_ingress_info_00",
+      "fieldtype": "Column Break"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "sb_ingress_details",
+      "fieldtype": "Section Break",
+      "label": "Ingress Details"
+    },
+    {
+      "fieldname": "bench",
+      "fieldtype": "Link",
+      "label": "Bench",
+      "options": "Flux Helm Release"
+    },
+    {
+      "fieldname": "status_logs",
+      "fieldtype": "Table",
+      "label": "Status Logs",
+      "options": "Kubernetes Ingress Status",
+      "read_only": 1
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2023-01-31 21:43:52.935065",
+  "modified_by": "Administrator",
+  "module": "K8S Bench Interface",
+  "name": "Kubernetes Ingress",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
+}

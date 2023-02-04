@@ -1,0 +1,98 @@
+{
+  "actions": [],
+  "creation": "2023-01-28 14:45:35.109600",
+  "default_view": "List",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "sb_bench_source_details",
+    "source_name",
+    "namespace",
+    "url",
+    "cb_bench_source_details_00",
+    "kind",
+    "interval",
+    "branch",
+    "sb_auth_creds_01",
+    "secret_ref"
+  ],
+  "fields": [
+    {
+      "fieldname": "source_name",
+      "fieldtype": "Data",
+      "label": "Source Name"
+    },
+    {
+      "fieldname": "kind",
+      "fieldtype": "Select",
+      "label": "Kind",
+      "options": "HelmRepository\nGitRepository"
+    },
+    {
+      "fieldname": "namespace",
+      "fieldtype": "Link",
+      "label": "Namespace",
+      "options": "Kubernetes Namespace"
+    },
+    {
+      "fieldname": "interval",
+      "fieldtype": "Data",
+      "label": "Interval"
+    },
+    {
+      "fieldname": "url",
+      "fieldtype": "Data",
+      "label": "Url"
+    },
+    {
+      "fieldname": "branch",
+      "fieldtype": "Data",
+      "label": "Branch"
+    },
+    {
+      "fieldname": "sb_bench_source_details",
+      "fieldtype": "Section Break",
+      "label": "Bench Source Details"
+    },
+    {
+      "fieldname": "cb_bench_source_details_00",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "sb_auth_creds_01",
+      "fieldtype": "Section Break",
+      "label": "Auth Credentials"
+    },
+    {
+      "fieldname": "secret_ref",
+      "fieldtype": "Link",
+      "label": "Secret Ref",
+      "options": "Kubernetes Secret"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2023-01-30 22:31:14.331478",
+  "modified_by": "Administrator",
+  "module": "K8S Bench Interface",
+  "name": "Flux Helm Source",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
+}

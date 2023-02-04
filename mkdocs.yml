@@ -1,0 +1,16 @@
+site_name: K8s Bench Interface
+site_author: Castlecraft Ecommerce Pvt. Ltd
+site_url: https://castlecraft.gitlab.io/k8s_bench_interface
+theme:
+  name: material
+  palette:
+    scheme: default
+repo_name: castlecraft/k8s_bench_interface
+repo_url: https://gitlab.com/castlecraft/k8s_bench_interface
+edit_uri: edit/main/docs/
+nav:
+  - Introduction: index.md
+  - Development: development.md
+  - Production: production.md
+plugins:
+  - search

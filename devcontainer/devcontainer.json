@@ -8,8 +8,5 @@
   "service": "frappe",
   "workspaceFolder": "/workspace/development",
   "shutdownAction": "stopCompose",
-  "extensions": [
-    "ms-python.python",
-    "visualstudioexptteam.vscodeintellicode"
-  ]
+  "extensions": ["ms-python.python", "visualstudioexptteam.vscodeintellicode"]
 }

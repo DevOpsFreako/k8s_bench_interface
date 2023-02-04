@@ -1,0 +1,30 @@
+{
+  "actions": [],
+  "creation": "2023-01-29 21:19:18.585678",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": ["log"],
+  "fields": [
+    {
+      "allow_in_quick_entry": 1,
+      "fieldname": "log",
+      "fieldtype": "Code",
+      "in_list_view": 1,
+      "label": "Log",
+      "options": "JSON",
+      "read_only": 1
+    }
+  ],
+  "istable": 1,
+  "links": [],
+  "modified": "2023-01-29 21:32:53.187695",
+  "modified_by": "Administrator",
+  "module": "K8S Bench Interface",
+  "name": "Custom Build Log",
+  "owner": "Administrator",
+  "permissions": [],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
+}

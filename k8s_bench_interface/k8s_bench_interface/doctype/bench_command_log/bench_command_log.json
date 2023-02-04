@@ -1,0 +1,31 @@
+{
+  "actions": [],
+  "allow_rename": 1,
+  "creation": "2023-01-30 11:40:54.803507",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": ["log"],
+  "fields": [
+    {
+      "allow_in_quick_entry": 1,
+      "fieldname": "log",
+      "fieldtype": "Code",
+      "in_list_view": 1,
+      "label": "Log",
+      "options": "JSON"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "istable": 1,
+  "links": [],
+  "modified": "2023-01-30 11:40:54.803507",
+  "modified_by": "Administrator",
+  "module": "K8S Bench Interface",
+  "name": "Bench Command Log",
+  "owner": "Administrator",
+  "permissions": [],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
+}
