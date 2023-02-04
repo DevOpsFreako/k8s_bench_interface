@@ -48,7 +48,7 @@ test_quality:
     - merge_requests
   before_script:
     # Install os dependencies
-    - apk add -U git
+    - apk add -U git nodejs
 
     # Setup python environment
     - |
@@ -58,8 +58,6 @@ test_quality:
   script:
     # Test code format and lint
     - ./env/bin/pre-commit run --color=always --all-files
-  tags:
-    - castlecraft
 
 test_e2e:
   image: frappe/bench:latest
@@ -70,8 +68,11 @@ test_e2e:
   extends: .only_source
   before_script:
     # For Cypress
-    # - sudo apt-get update && sudo apt-get install -y jq wait-for-it libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-    # - sudo dpkg -i https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - sudo apt-get update && sudo apt-get install -y jq wait-for-it libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+    - |
+      curl -sSLO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
+      rm -fr google-chrome-stable_current_amd64.deb
     # For frappe-bench
     - sudo mkdir -p /workspace
     - sudo chown -R frappe:frappe /workspace
@@ -92,7 +93,7 @@ test_e2e:
       cd k8s_bench
       python3 -m venv env
       ./env/bin/pip install -e .
-      echo "k8s_bench: /workspace/development/k8s_bench/env/bin/uvicorn --host 0.0.0.0 --reload --port 3000 --reload-dir /workspace/development/k8s_bench k8s_bench.main:app" >> /workspace/frappe-bench/Procfile
+      echo "k8s_bench: /workspace/k8s_bench/env/bin/uvicorn --host 0.0.0.0 --reload --port 3000 --reload-dir /workspace/k8s_bench k8s_bench.main:app" >> /workspace/frappe-bench/Procfile
     ## Install Apps
     - |
       cd /workspace/frappe-bench
@@ -194,11 +195,9 @@ pages:
     - |
       python -m venv env
       . ./env/bin/activate
-      pip install -e .
+      REQUIREMENTS_FILE=requirements-ci.txt pip install -e .
   script:
     - mkdocs build -d public
   artifacts:
     paths:
       - public
-  tags:
-    - castlecraft

@@ -238,6 +238,11 @@ def update_template_version(args: argparse.Namespace, version=None):
         with open("values-template.yaml", "r+") as f:
             content = f.read()
             content = re.sub(r"tag: .*", f"tag: {version}", content)
+            content = re.sub(
+                r"registry.gitlab.com/castlecraft/k8s_bench_interface/bench:.*",  # noqa: E501
+                f"registry.gitlab.com/castlecraft/k8s_bench_interface/bench:{version}",  # noqa: E501
+                content,
+            )
             f.seek(0)
             f.truncate()
             f.write(content)
