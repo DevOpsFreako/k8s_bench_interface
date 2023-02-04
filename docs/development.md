@@ -93,6 +93,8 @@ helm upgrade --install \
 Install K8s-bench-ui
 
 ```shell
+helm repo add frappe https://helm.erpnext.com
+helm repo update frappe
 helm upgrade \
   --create-namespace \
   --install k8s-bench-ui \
