@@ -90,6 +90,24 @@ helm upgrade --install \
   manage-sites k8s-bench/k8s-bench
 ```
 
+Install MariaDB
+
+```shell
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update bitnami
+helm upgrade \
+  --wait \
+  --create-namespace \
+  --install mariadb \
+  --namespace mariadb \
+  --set primary.extraFlags="--skip-character-set-client-handshake --skip-innodb-read-only-compressed --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci" \
+  --set auth.rootPassword=changeit \
+  --set auth.username=dbadmin \
+  --set auth.password=changeit \
+  --set auth.replicationPassword=changeit \
+  bitnami/mariadb
+```
+
 Install K8s-bench-ui
 
 ```shell
