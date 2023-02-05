@@ -1,15 +1,3 @@
-.only_source:
-  only:
-    changes:
-      - k8s_bench_interface/**
-      - tests/**
-      - .gitlab
-      - .gitlab-ci.yml
-      - MANIFEST.in
-      - .pre-commit-config.yaml
-      - requirements*.txt
-      - setup.py
-
 image: docker:20.10.16
 
 variables:
@@ -29,9 +17,9 @@ stages:
 services:
   - name: docker:20.10.16-dind
     alias: docker
-  # - name: registry.gitlab.com/gitlab-org/cluster-integration/test-utils/k3s-gitlab-ci/releases/v1.23.4-k3s1
-  #   alias: k3s
-  #   command: ['server', '--disable=traefik']
+  - name: registry.gitlab.com/gitlab-org/cluster-integration/test-utils/k3s-gitlab-ci/releases/v1.23.4-k3s1
+    alias: k3s
+    command: ['server', '--disable=traefik']
   - name: redis:7.0.0-alpine
     alias: redis-cache
   - name: redis:7.0.0-alpine
@@ -44,8 +32,8 @@ services:
 test_quality:
   image: python:3-alpine
   stage: test
-  only:
-    - merge_requests
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   before_script:
     # Install os dependencies
     - apk add -U git nodejs
@@ -62,10 +50,17 @@ test_quality:
 test_e2e:
   image: frappe/bench:latest
   stage: test
-  only:
-    refs:
-      - merge_requests
-  extends: .only_source
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - k8s_bench_interface/**/*
+        - tests/**/*
+        - .gitlab/**/*
+        - .gitlab-ci.yml
+        - MANIFEST.in
+        - .pre-commit-config.yaml
+        - requirements*.txt
+        - setup.py
   before_script:
     # For Cypress
     - sudo apt-get update && sudo apt-get install -y jq wait-for-it libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
@@ -120,9 +115,8 @@ build_latest:
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: ['']
-  only:
-    refs:
-      - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
   script:
     - |
       source ./ci/build.env
@@ -152,12 +146,11 @@ build_version:
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: ['']
-  only:
-    refs:
-      - main
-    changes:
-      - k8s_bench_interface/k8s_bench_interface/__init__.py
-      - ci/version.txt
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - k8s_bench_interface/k8s_bench_interface/__init__.py
+        - ci/version.txt
   script:
     - |
       source ./ci/build.env
@@ -185,11 +178,8 @@ build_version:
 pages:
   image: python:3-alpine
   stage: docs
-  only:
-    refs:
-      - main
-    changes:
-      - docs/**
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
   before_script:
     # Setup python environment
     - |

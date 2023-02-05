@@ -4,25 +4,43 @@
 - [`kubectl`](https://kubernetes.io/docs/tasks/tools/)
 - [Helm 3](https://helm.sh)
 - [FluxCD](https://fluxcd.io)
+- [Cert Manager](https://cert-manager.io) Optional for automating letsencrypt certificates. Not required in case of purchased wildcard certificates.
 
-### Resource Requirements
+### Resource and Budget Requirements
 
-- **Container Registry**, Comes with Github and Gitlab, or can be purchased or self-hosted.
-- **Default StorageClass**, Make sure you've a default `storageclass`. Verify with command `kubectl get sc`.
-- **RWX Storage**, Additional storage class with access mode RWX needs to be setup. Alternatives: AWS EFS CSI, rook.io, openebs.io, [seeweedfs](https://github.com/seaweedfs/seaweedfs-operator), etc.
-- **MariaDB** Make sure access to MariaDB database with frappe specific configuration is available. Alternatives, [Managed DbaaS](<https://github.com/frappe/frappe/wiki/Using-Frappe-with-Amazon-RDS-(or-any-other-DBaaS)>), [Self-host](https://github.com/frappe/frappe/wiki/Setup-MariaDB-Server), In Cluster helm chart (default).
-- **S3 storage**, Recommended to use restic S3 snapshots backups of files.
-- **LoadBalancer** service will be created once you install ingress controller, make sure it is budgeted. Install ingress-controller of choice. Documentation refers to [kubernetes/ingress-nginx](https://kubernetes.github.io/ingress-nginx)
-- **Cert Manager**, This needs to be installed and configured to generate letsencrypt certificates with http or dns challenge. It is required for auto management of tls for ingresses created. Refer cert-manager.io for more.
-- Start with at least 2 nodes in case of separate data server and 3 nodes in case of in-cluster data.
-- In case of in-cluster data make sure the nodes have more than 4GB RAM.
-- In any case make sure you backup database and files in regularly intervals.
+**Container Registry**
+
+Budget for this is required to push the built container images. It can also be used to cache layers for faster builds. If you have private apps, you may need a private registry. GitHub provides `ghcr.io` and Gitlab provides `registry.gitlab.com`. More alternatives here. [CNCF Landscape/Container Registry](https://landscape.cncf.io/card-mode?category=container-registry&grouping=category).
+
+**Database**
+
+Budget for database as per the availability and scale requirements. Make sure access to database with frappe specific configuration is available. Some of available alternatives, [Managed DbaaS](<https://github.com/frappe/frappe/wiki/Using-Frappe-with-Amazon-RDS-(or-any-other-DBaaS)>), [Self-host](https://github.com/frappe/frappe/wiki/Setup-MariaDB-Server), If you use helm chart to install database make sure you have default `StorageClass` available, it is necessary to attach block storage to store volume for MariaDB Primary Server. This storageclass is separate from the RWX Storage Class mentioned below.
+
+**RWX Storage**
+
+Additional storage class with access mode RWX needs to be available. Alternatives: [AWS EFS CSI](https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html), [Rook](https://rook.io), [OpenEBS](https://openebs.io), [seaweedfs](https://github.com/seaweedfs/seaweedfs-operator), etc. In case of In-Cluster Helm Chart for NFS server. Additional default storage class will be required. It is used to connect block storage to store files served by NFS server.
+
+**S3 storage**
+
+Recommended to use restic S3 snapshots backups of files. Each site can have their own snapshots. Bench level snapshots can be taken irrespective of site level snapshots. Required in case of serving production sites that may not enable individual S3 backups.
+
+**LoadBalancer**
+
+Cloud load balancer will be created once you install ingress controller, make sure it is budgeted. Install ingress-controller of choice. Documentation refers to [kubernetes/ingress-nginx](https://kubernetes.github.io/ingress-nginx)
+
+**Nodes**
+
+Start with at least 2 nodes in case of separate data server and 3 nodes in case of in-cluster data. In case of in-cluster data make sure the nodes have more than 4GB RAM. In any case make sure you backup database and files in regularly intervals.
+
+**DNS Management**
+
+In case Cert Manager is used to automate letsencrypt wildcard certificates with `dns01` challenge then make sure the service you are using to manage DNS is supported or has a webhook available. [Supported DNS01 providers](https://cert-manager.io/docs/configuration/acme/dns01/#supported-dns01-providers). If your service is not supported you can move the nameservers to the supported service or purchase wildcard certificates and set them as secret in cluster without using cert manager.
 
 ### Backups
 
-- Take 3 backups, 1 Primary backup and 2 copies.
+- Take at least 2 backups, 1 Primary backup and 1 copy
 - Save backups on different media types
-- Keep 1 backup off-site
+- Keep at least 1 backup off-site
 - Setup CRON Job for this and make sure disaster recovery measures are in place.
 
 ### Install Flux
