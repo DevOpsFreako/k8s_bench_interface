@@ -188,3 +188,20 @@ def update_ingress(ingress: str):
     ki.append("status_logs", {"log": res.text})
     ki.save()
     return ki.as_dict()
+
+
+@frappe.whitelist(methods=["POST"])
+def update_bench_cronjob_status(bench_cronjob: str):
+    cronjob = frappe.get_doc("Bench CronJob", bench_cronjob)
+    res = requests.get(
+        frappe.conf.k8s_bench_url + "/cronjobs/get-status",
+        params={
+            "name": cronjob.job_name,
+            "namespace": cronjob.namespace,
+        },
+        auth=(frappe.conf.k8s_bench_key, frappe.conf.k8s_bench_secret),
+    )
+    res.raise_for_status()
+    cronjob.append("command_logs", {"log": res.text})
+    cronjob.save()
+    return cronjob.as_dict()

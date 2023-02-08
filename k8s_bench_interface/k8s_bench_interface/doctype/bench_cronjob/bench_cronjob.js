@@ -2,16 +2,16 @@
 // For license information, please see license.txt
 
 /* global frappe, __ */
-frappe.ui.form.on('Bench Command', {
+frappe.ui.form.on('Bench CronJob', {
   refresh: function (frm) {
     if (!frm.doc.__islocal) {
       frm.disable_form();
       frm.add_custom_button('Fetch Status', () => {
         frappe.call({
-          method: 'k8s_bench_interface.endpoints.update_bench_command_status',
-          args: { bench_command: frm.doc.job_name },
+          method: 'k8s_bench_interface.endpoints.update_bench_cronjob_status',
+          args: { bench_cronjob: frm.doc.cronjob_name },
           callback: r => {
-            frappe.msgprint(__('Bench Command Status Updated'));
+            frappe.msgprint(__('Bench CronJob Status Updated'));
           },
         });
       });

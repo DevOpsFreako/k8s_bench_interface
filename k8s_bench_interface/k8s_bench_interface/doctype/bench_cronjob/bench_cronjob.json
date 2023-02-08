@@ -1,0 +1,202 @@
+{
+  "actions": [],
+  "allow_rename": 1,
+  "creation": "2023-02-08 14:35:39.326863",
+  "default_view": "List",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "sb_command_info",
+    "bench",
+    "cronjob_name",
+    "namespace",
+    "cronstring",
+    "cb_command_info_00",
+    "sites_pvc",
+    "logs_pvc",
+    "image",
+    "sb_command_args",
+    "args",
+    "sb_job_details",
+    "image_pull_secrets",
+    "annotations",
+    "node_selectors",
+    "sb_res_constraints",
+    "requests_cpu",
+    "requests_memory",
+    "cb_res_con_00",
+    "limits_cpu",
+    "limits_memory",
+    "sb_command_details",
+    "commands",
+    "command_logs"
+  ],
+  "fields": [
+    {
+      "fieldname": "sb_command_info",
+      "fieldtype": "Section Break",
+      "label": "Command Information"
+    },
+    {
+      "fieldname": "bench",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Bench",
+      "options": "Flux Helm Release",
+      "reqd": 1
+    },
+    {
+      "fieldname": "cronjob_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Job Name",
+      "reqd": 1
+    },
+    {
+      "fieldname": "namespace",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Namespace",
+      "options": "Kubernetes Namespace",
+      "reqd": 1
+    },
+    {
+      "fieldname": "cronstring",
+      "fieldtype": "Data",
+      "label": "Cronstring",
+      "reqd": 1
+    },
+    {
+      "fieldname": "cb_command_info_00",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "sites_pvc",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Sites PVC",
+      "reqd": 1
+    },
+    {
+      "fieldname": "logs_pvc",
+      "fieldtype": "Data",
+      "label": "Logs PVC"
+    },
+    {
+      "fieldname": "image",
+      "fieldtype": "Data",
+      "label": "Image",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sb_command_args",
+      "fieldtype": "Section Break",
+      "label": "Command Arguments"
+    },
+    {
+      "fieldname": "args",
+      "fieldtype": "Table",
+      "label": "Args",
+      "options": "Bench Command Argument",
+      "reqd": 1
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "sb_job_details",
+      "fieldtype": "Section Break",
+      "label": "Job Details"
+    },
+    {
+      "fieldname": "image_pull_secrets",
+      "fieldtype": "Table",
+      "label": "Image Pull Secrets",
+      "options": "Kubernetes Image Pull Secret"
+    },
+    {
+      "fieldname": "annotations",
+      "fieldtype": "Table",
+      "label": "Annotations",
+      "options": "Kubernetes Annotation"
+    },
+    {
+      "fieldname": "node_selectors",
+      "fieldtype": "Table",
+      "label": "Node Selectors",
+      "options": "Kubernetes NodeSelector"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "sb_res_constraints",
+      "fieldtype": "Section Break",
+      "label": "Resource Constraints"
+    },
+    {
+      "fieldname": "requests_cpu",
+      "fieldtype": "Data",
+      "label": "Requests CPU"
+    },
+    {
+      "fieldname": "requests_memory",
+      "fieldtype": "Data",
+      "label": "Requests Memory"
+    },
+    {
+      "fieldname": "cb_res_con_00",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "limits_cpu",
+      "fieldtype": "Data",
+      "label": "Limits CPU"
+    },
+    {
+      "fieldname": "limits_memory",
+      "fieldtype": "Data",
+      "label": "Limits Memory"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "sb_command_details",
+      "fieldtype": "Section Break",
+      "label": "Command Details"
+    },
+    {
+      "fieldname": "commands",
+      "fieldtype": "Table",
+      "label": "Commands",
+      "options": "Bench Command Element"
+    },
+    {
+      "fieldname": "command_logs",
+      "fieldtype": "Table",
+      "label": "Command Logs",
+      "options": "Bench Command Log",
+      "read_only": 1
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2023-02-08 14:44:04.745719",
+  "modified_by": "Administrator",
+  "module": "K8S Bench Interface",
+  "name": "Bench CronJob",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
+}
