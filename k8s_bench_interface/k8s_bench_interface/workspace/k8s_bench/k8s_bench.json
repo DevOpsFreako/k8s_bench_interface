@@ -52,8 +52,36 @@
     {
       "hidden": 0,
       "is_query_report": 0,
-      "label": "Jobs",
+      "label": "Flux",
       "link_count": 2,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Source",
+      "link_count": 0,
+      "link_to": "Flux Helm Source",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Helm Release",
+      "link_count": 0,
+      "link_to": "Flux Helm Release",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Jobs",
+      "link_count": 3,
       "onboard": 0,
       "type": "Card Break"
     },
@@ -80,33 +108,15 @@
     {
       "hidden": 0,
       "is_query_report": 0,
-      "label": "Flux",
-      "link_count": 2,
-      "onboard": 0,
-      "type": "Card Break"
-    },
-    {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Source",
+      "label": "Bench CronJob",
       "link_count": 0,
-      "link_to": "Flux Helm Source",
-      "link_type": "DocType",
-      "onboard": 0,
-      "type": "Link"
-    },
-    {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Helm Release",
-      "link_count": 0,
-      "link_to": "Flux Helm Release",
+      "link_to": "Bench CronJob",
       "link_type": "DocType",
       "onboard": 0,
       "type": "Link"
     }
   ],
-  "modified": "2023-02-02 14:05:18.826986",
+  "modified": "2023-02-08 14:36:54.539267",
   "modified_by": "Administrator",
   "module": "K8S Bench Interface",
   "name": "K8s Bench",
