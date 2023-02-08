@@ -227,7 +227,7 @@ def update_image_version(args: argparse.Namespace, version=None):
         with open("ci/version.txt", "r+") as f:
             f.seek(0)
             f.truncate()
-            f.write(version)
+            f.write(f"{version}\n")
 
 
 def update_template_version(args: argparse.Namespace, version=None):
