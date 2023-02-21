@@ -1,0 +1,7 @@
+resources:
+  - all.yaml
+patches:
+  - path: patch.yaml
+    target:
+      kind: Ingress
+      name: k8s-bench-ui

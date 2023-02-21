@@ -57,6 +57,7 @@ jobs:
           readOnly: false
 
 ingress:
+  ingressName: k8s-bench-ui
   enabled: true
   className: nginx
   # annotations:

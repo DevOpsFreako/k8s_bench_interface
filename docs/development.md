@@ -114,10 +114,10 @@ Install K8s-bench-ui
 helm repo add frappe https://helm.erpnext.com
 helm repo update frappe
 helm upgrade \
-  --create-namespace \
   --install k8s-bench-ui \
-  --namespace k8s-bench-ui \
+  --namespace bench-system \
   -f /workspace/values-template.yaml \
+  --post-renderer /workspace/kustomize/patch.sh \
   frappe/erpnext
 ```
 

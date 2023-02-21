@@ -94,16 +94,23 @@ Download and configure `values.yaml`
 ```shell
 curl -fsSL https://gitlab.com/castlecraft/k8s_bench_interface/-/raw/main/values-template.yaml >values.yaml
 vim values.yaml
+
+# Download kustomization yamls for post-rendering ingress
+mkdir -p kustomize
+curl -fsSL https://gitlab.com/castlecraft/k8s_bench_interface/-/raw/main/kustomize/kustomization.yaml >kustomize/kustomization.yaml
+curl -fsSL https://gitlab.com/castlecraft/k8s_bench_interface/-/raw/main/kustomize/patch.sh >kustomize/patch.sh
+chmod +x kustomize/patch.sh
+curl -fsSL https://gitlab.com/castlecraft/k8s_bench_interface/-/raw/main/kustomize/patch.yaml >kustomize/patch.yaml
 ```
 
 Install K8s-bench UI
 
 ```shell
 helm upgrade \
-  --create-namespace \
   --install k8s-bench-ui \
-  --namespace k8s-bench-ui \
+  --namespace bench-system \
   -f values.yaml \
+  --post-renderer kustomize/patch.sh \
   frappe/erpnext
 ```
 
