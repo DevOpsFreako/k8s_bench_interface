@@ -205,3 +205,18 @@ def update_bench_cronjob_status(bench_cronjob: str):
     cronjob.append("command_logs", {"log": res.text})
     cronjob.save()
     return cronjob.as_dict()
+
+
+@frappe.whitelist()
+def get_pod_exec_info(pod_name: str = None):
+    res = requests.get(
+        frappe.conf.k8s_bench_url + "/terminal/get-short-token",
+        auth=(frappe.conf.k8s_bench_key, frappe.conf.k8s_bench_secret),
+    )
+    res.raise_for_status()
+    token = res.json().get("token")
+    return {
+        "token": token,
+        "terminal_socket_endpoint": frappe.conf.terminal_socket_endpoint
+        or "wss:///terminal",
+    }

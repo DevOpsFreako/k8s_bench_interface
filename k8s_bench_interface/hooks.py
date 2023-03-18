@@ -12,7 +12,7 @@ app_version = version
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/k8s_bench_interface/css/k8s_bench_interface.css"
+app_include_css = ["xterm.bundle.css"]
 app_include_js = ["xterm.bundle.js"]
 
 # include js, css files in header of web template

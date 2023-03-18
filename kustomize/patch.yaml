@@ -4,20 +4,20 @@ metadata:
   name: k8s-bench-ui
 spec:
   rules:
-  - host: k8s-bench-ui.localhost
-    http:
-      paths:
-      - backend:
-          service:
-            name: k8s-bench-ui-erpnext
-            port:
-              number: 8080
-        path: /
-        pathType: ImplementationSpecific
-      - backend:
-          service:
-            name: manage-sites-k8s-bench
-            port:
-              number: 8000
-        path: /terminal
-        pathType: ImplementationSpecific
+    - host: k8s-bench-ui.localhost
+      http:
+        paths:
+          - backend:
+              service:
+                name: k8s-bench-ui-erpnext
+                port:
+                  number: 8080
+            path: /
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: manage-sites-k8s-bench
+                port:
+                  number: 8000
+            path: /terminal
+            pathType: ImplementationSpecific
