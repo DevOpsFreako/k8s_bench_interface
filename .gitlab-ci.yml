@@ -139,6 +139,8 @@ build_latest:
         --build-arg=NODE_VERSION=${NODE_VERSION} \
         --build-arg=APPS_JSON_BASE64=${APPS_JSON_BASE64:-$(base64 -w 0 ./ci/apps.json)} \
         --destination=${IMAGE_NAME}:latest \
+        --snapshot-mode=redo \
+        --compressed-caching=false \
         --cache=true
 
 build_version:
@@ -173,6 +175,8 @@ build_version:
         --build-arg=NODE_VERSION=${NODE_VERSION} \
         --build-arg=APPS_JSON_BASE64=${APPS_JSON_BASE64:-$(base64 -w 0 ./ci/apps.json)} \
         --destination=${IMAGE_NAME}:${VERSION:-$(cat ./ci/version.txt)} \
+        --snapshot-mode=redo \
+        --compressed-caching=false \
         --cache=true
 
 pages:
