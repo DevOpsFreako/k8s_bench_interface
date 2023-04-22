@@ -29,7 +29,8 @@
     "limits_memory",
     "sb_command_details",
     "commands",
-    "command_logs"
+    "command_logs",
+    "command_volumes"
   ],
   "fields": [
     {
@@ -166,11 +167,17 @@
       "fieldtype": "Table",
       "label": "Node Selectors",
       "options": "Kubernetes NodeSelector"
+    },
+    {
+      "fieldname": "command_volumes",
+      "fieldtype": "Table",
+      "label": "Command Volumes",
+      "options": "Kubernetes Volume"
     }
   ],
   "index_web_pages_for_search": 1,
   "links": [],
-  "modified": "2023-01-30 17:23:24.483718",
+  "modified": "2023-04-21 16:20:37.285265",
   "modified_by": "Administrator",
   "module": "K8S Bench Interface",
   "name": "Bench Command",

@@ -30,6 +30,18 @@ class BenchCommand(Document):
         for selector in self.node_selectors:
             node_selector[selector.key] = selector.value
 
+        command_volumes = []
+
+        for vol in self.command_volumes:
+            command_volumes.append(
+                {
+                    "volume_name": vol.volume_name,
+                    "pvc_name": vol.pvc_name,
+                    "mount_path": vol.mount_path,
+                    "read_only": True if vol.read_only else False,
+                }
+            )
+
         resources = get_resources_dict(
             requests_cpu=self.requests_cpu,
             requests_memory=self.requests_memory,
@@ -61,6 +73,7 @@ class BenchCommand(Document):
                 "annotations": annotations,
                 "node_selector": node_selector,
                 "resources": resources,
+                "additional_volumes": command_volumes,
             },
             auth=(frappe.conf.k8s_bench_key, frappe.conf.k8s_bench_secret),
         )
