@@ -1,0 +1,55 @@
+{
+  "actions": [],
+  "allow_rename": 1,
+  "creation": "2023-04-21 16:18:35.075074",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": ["volume_name", "pvc_name", "mount_path", "read_only"],
+  "fields": [
+    {
+      "allow_in_quick_entry": 1,
+      "fieldname": "volume_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Volume Name",
+      "reqd": 1
+    },
+    {
+      "allow_in_quick_entry": 1,
+      "fieldname": "pvc_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "PVC Name",
+      "reqd": 1
+    },
+    {
+      "allow_in_quick_entry": 1,
+      "fieldname": "mount_path",
+      "fieldtype": "Code",
+      "in_list_view": 1,
+      "label": "Mount Path",
+      "reqd": 1
+    },
+    {
+      "allow_in_quick_entry": 1,
+      "default": "0",
+      "fieldname": "read_only",
+      "fieldtype": "Check",
+      "in_list_view": 1,
+      "label": "Read Only"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "istable": 1,
+  "links": [],
+  "modified": "2023-04-21 16:21:11.469324",
+  "modified_by": "Administrator",
+  "module": "K8S Bench Interface",
+  "name": "Kubernetes Volume",
+  "owner": "Administrator",
+  "permissions": [],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
+}
