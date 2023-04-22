@@ -203,7 +203,7 @@ def update_app_version(args: argparse.Namespace):
         cli_print(f"Bumped app version to {version}")
         if not args.dry_run:
             with open(
-                "k8s_bench_interface/k8s_bench_interface/__init__.py",
+                "k8s_bench_interface/__init__.py",
                 "r+",
             ) as f:
                 content = f.read()
