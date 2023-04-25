@@ -61,10 +61,7 @@ def git_commit_tag_push(args: argparse.Namespace):
     repo.git.commit("-m", commit_message)
 
     if app_version:
-        try:
-            repo.create_tag(app_version, message=f"Released {app_version}")
-        except git.exc.GitCommandError as e:
-            cli_print(str(e))
+        repo.create_tag(app_version, message=f"Released {app_version}")
 
     git_ssh_command = os.environ.get("GIT_SSH_COMMAND")
     if git_ssh_command:
@@ -142,9 +139,6 @@ def validate_bump(args: argparse.Namespace):
         invalid_bump_error += (
             f"Cannot bump app from {current_version} to {bump_version}\n"  # noqa: E501
         )
-
-    if args.tag:
-        is_bump_invalid = False
 
     if is_bump_invalid:
         cli_print(invalid_bump_error)
