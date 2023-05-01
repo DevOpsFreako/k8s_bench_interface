@@ -9,7 +9,7 @@ frappe.ui.form.on('Bench CronJob', {
       frm.add_custom_button('Fetch Status', () => {
         frappe.call({
           method: 'k8s_bench_interface.endpoints.update_bench_cronjob_status',
-          args: { bench_cronjob: frm.doc.cronjob_name },
+          args: { bench_cronjob: frm.doc.name },
           callback: r => {
             frappe.msgprint(__('Bench CronJob Status Updated'));
           },
